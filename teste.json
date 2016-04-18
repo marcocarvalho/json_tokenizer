@@ -1,0 +1,19 @@
+[{
+    "channel": "/meta/handshake",
+    "successful": true,
+    "version": "1.0",
+    "supportedConnectionTypes": [
+      "long-polling",
+      "cross-origin-long-polling",
+      "callback-polling",
+      "websocket",
+      "eventsource",
+      "in-process"
+    ],
+    "clientId": "pl4t3hchpz8t6jb0ojnzd2cccskde5r",
+    "advice": {
+        "reconnect": "retry",
+        "interval": 0,
+        "timeout": 45000
+    }
+}]
