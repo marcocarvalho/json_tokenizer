@@ -10,13 +10,15 @@ class CreatePascalClasses
 
   def create_class(name, hash)
     puts "- #{name}.pas"
+    dependencies = []
     hash.select { |_, v| dependency?(v) }.each do |key, value|
       print " Dependency: "
       param = value[:array] ? value[:array] : value
+      dependencies << key
       create_class(key, param)
     end
     File.open("#{name}.pas",'w+') do |f|
-      f.write PascalClass.new(name, hash).template
+      f.write PascalClass.new(name, hash, dependencies: dependencies).template
     end
   end
 
