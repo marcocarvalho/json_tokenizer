@@ -12,15 +12,16 @@ class JsonTokenizer
   end
 
   def object(obj)
-    obj.map do |key, value|
-      { key => decide(value) }
+    obj.each_with_object({}) do |(key, value), hash|
+      hash[key] = decide(value)
     end
   end
 
   def array(obj)
-    obj.flat_map do |o|
+    _obj = obj.flat_map do |o|
       decide(o)
-    end.compact.uniq
+    end.compact.uniq.first
+    { array: _obj }
   end
 
   def decide(obj)
@@ -29,7 +30,22 @@ class JsonTokenizer
     elsif obj.is_a?(Hash)
       object(obj)
     else
-      obj.class
+      pascal_type(obj.class)
+    end
+  end
+
+  def pascal_type(klass)
+    case klass
+    when Fixnum
+      'Integer'
+    when Float
+      'Real'
+    when TrueClass
+      'Boolean'
+    when FalseClass
+      'Boolean'
+    else
+      klass
     end
   end
 
@@ -40,5 +56,5 @@ end
 
 ARGV.each do |file|
   jt = JsonTokenizer.new(file)
-  puts jt.parse.to_json
+  puts JSON.pretty_generate(jt.parse)
 end

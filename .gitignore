@@ -1,0 +1,4 @@
+*.pas
+*.ppu
+*.o
+.byebug_history
