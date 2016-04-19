@@ -44,7 +44,7 @@ class JsonTokenizer
     when FalseClass
       'Boolean'
     else
-      klass
+      klass.to_s
     end
   end
 
