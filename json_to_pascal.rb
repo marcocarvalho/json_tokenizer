@@ -10,10 +10,7 @@ class CreatePascalClasses
 
   def create_class(name, hash)
     puts "- #{name}.pas"
-    hash.select do |_, v|
-      puts _, v, dependency?(v)
-      dependency?(v)
-    end.each do |key, value|
+    hash.select { |_, v| dependency?(v) }.each do |key, value|
       print " Dependency: "
       param = value[:array] ? value[:array] : value
       create_class(key, param)

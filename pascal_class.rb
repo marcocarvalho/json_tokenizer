@@ -12,7 +12,11 @@ class PascalClass
   def private_part(default_ident = '    ')
     object.map do |key, value|
       if value.is_a?(Hash)
-        "#{f_key(key)}: array of #{t_name(key)};"
+        if(value.values.first.is_a?(String))
+          "#{f_key(key)}: array of #{value.values.first};"
+        else
+          "#{f_key(key)}: array of #{t_name(key)};"
+        end
       else
         "#{f_key(key)}: #{value};"
       end
