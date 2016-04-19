@@ -32,7 +32,7 @@ class CreatePascalClasses
   end
 
   def create
-    create_class(File.basename(json_file), tokenized)
+    create_class(File.basename(json_file, '.*'), tokenized)
   end
 
   def tokenized

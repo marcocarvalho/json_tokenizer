@@ -34,17 +34,18 @@ class JsonTokenizer
   end
 
   def pascal_type(klass)
-    case klass
-    when Fixnum
+    k = klass.to_s
+    case k
+    when 'Fixnum'
       'Integer'
-    when Float
-      'Real'
-    when TrueClass
+    when 'Float'
+      'Double'
+    when 'TrueClass'
       'Boolean'
-    when FalseClass
+    when 'FalseClass'
       'Boolean'
     else
-      klass.to_s
+      k
     end
   end
 
