@@ -1,5 +1,4 @@
 require 'json'
-require 'byebug'
 
 class JsonTokenizer
   attr_accessor :filename
@@ -52,9 +51,4 @@ class JsonTokenizer
   def parse
     decide(json)
   end
-end
-
-ARGV.each do |file|
-  jt = JsonTokenizer.new(file)
-  puts JSON.pretty_generate(jt.parse)
 end

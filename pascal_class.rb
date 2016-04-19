@@ -10,11 +10,23 @@ class PascalClass
   end
 
   def private_part(default_ident = '    ')
-    object.map { |key, value| "#{f_key(key)}: #{value};" }.join("\n#{default_ident}")
+    object.map do |key, value|
+      if value.is_a?(Hash)
+        "#{f_key(key)}: array of #{t_name(key)};"
+      else
+        "#{f_key(key)}: #{value};"
+      end
+    end.join("\n#{default_ident}")
   end
 
   def public_part(default_ident = '    ')
-    object.map  { |key, value| "property #{key}:#{value} read #{f_key(key)} write #{f_key(key)};" }.join("\n#{default_ident}")
+    object.map do |key, value|
+      if value.is_a?(Hash)
+        "property #{key}:array of #{t_name(key)} read #{f_key(key)} write #{f_key(key)};"
+      else
+        "property #{key}:#{value} read #{f_key(key)} write #{f_key(key)};"
+      end
+    end.join("\n#{default_ident}")
   end
 
   def implementation
@@ -25,8 +37,12 @@ end;
 Pascal
   end
 
+  def t_name(n)
+    "T#{n.capitalize}"
+  end
+
   def class_name
-    "T#{name.capitalize}"
+    t_name(name)
   end
 
   def template
