@@ -14,4 +14,8 @@ module Normalizator
   def class_name
     t_name(name)
   end
+
+  def t_collection(name)
+    "TCollection#{t_name(name)}"
+  end
 end

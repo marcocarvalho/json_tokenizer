@@ -3,7 +3,13 @@ require './pascal_base'
 class PascalTypeDeclaration < PascalBase
   def private_part
     declaration.map do |field, type|
-      "#{f_key(field)}: #{type};"
+      if field == :array && type.is_a?(Hash)
+        "#{f_key(name)}: #{array_type(name)};"
+      elsif type.is_a?(Hash) && type[:array]
+        "#{f_key(field)}: #{array_type(field)};"
+      else
+        "#{f_key(field)}: #{type}"
+      end
     end.join("\n    ")
   end
 

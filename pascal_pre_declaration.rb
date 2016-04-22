@@ -2,7 +2,7 @@ require './pascal_base'
 
 class PascalPreDeclaration < PascalBase
   def classes
-    klass(name, declaration).flatten.compact.uniq
+    klass(name, declaration, first: true).flatten.compact.uniq
   end
 
   def array?(hash)
@@ -13,11 +13,11 @@ class PascalPreDeclaration < PascalBase
     hash.is_a?(Hash) && !hash[:array]
   end
 
-  def klass(name, hash)
+  def klass(name, hash, opts = {})
     return nil unless hash.is_a?(Hash)
     hash.flat_map do |key, value|
       if key == :array
-        klass(name, value)
+        [ opts[:first] ? t_collection(name) : nil, klass(name, value) ]
       else klass?(hash)
         [ t_name(name), klass(key, value) ]
       end
