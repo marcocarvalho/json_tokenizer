@@ -47,13 +47,13 @@ class PascalImplementation < PascalBase
   SetLength(#{f_key(field)}, arr.Count);
   for i := 0 to (arr.Count - 1) do
   begin
-    #{f_key(field)}[i] := #{t_key(field)}.create(arr.Items[i]);
+    #{f_key(field)}[i] := #{t_name(field)}.create(arr.Items[i]);
   end;
 Pascal
   end
 
   def populate_property_hash(field, type)
-    "#{f_key(field)} := #{t_key(field)}.Create(obj.Get('#{field}').JsonValue);"
+    "#{f_key(field)} := #{t_name(field)}.Create(obj.Get('#{field}').JsonValue);"
   end
 
   def template
