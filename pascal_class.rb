@@ -1,4 +1,6 @@
 require './normalizator'
+require './pascal_base'
+require './pascal_types'
 require './pascal_custom_type'
 require './pascal_implementation'
 require './pascal_pre_declaration'
