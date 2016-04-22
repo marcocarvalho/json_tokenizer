@@ -12,7 +12,7 @@ class PascalTypeDeclaration < PascalBase
     declaration.map do |field, type|
       if field == :array && type.is_a?(Hash)
         "#{f_key(name)}: #{array_type(name)};"
-      elsif type.is_a?(Hash) && !type[:array]
+      elsif field != :array && type.is_a?(Hash) && type[:array]
         "#{f_key(field)}: #{array_type(field)};"
       else
         "#{f_key(field)}: #{type}"
