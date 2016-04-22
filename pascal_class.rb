@@ -23,7 +23,7 @@ class PascalClass
   end
 
   def interface
-    [uses, pre_declaration, custom_types, declaration].compact.join("\n\n")
+    [uses, pre_declaration, custom_types, type_declaration].compact.join("\n\n")
   end
 
   def uses
