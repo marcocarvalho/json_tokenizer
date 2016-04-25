@@ -16,7 +16,7 @@ class PascalCustomType < PascalBase
     hash.flat_map do |key, value|
       if key == :array && value.is_a?(Hash)
         [ { array_type(name) => t_name(name) }, array( name, value) ]
-      elsif key == :array && !value.is_a?(Hash)
+      elsif key == :array && !value.is_a?(Hash) && value
         [ array_type(name) => value ]
       else
         array(key, value)
