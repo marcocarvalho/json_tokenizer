@@ -48,7 +48,7 @@ class PascalTypes < PascalBase
         { t_name(name) => hash },
         hash.flat_map do |key, value|
           if klass?(value) && array?(value)
-            [ { t_name(key) => value[:array] }, klass(name, value[:array]) ]
+            [ { t_name(key) => value[:array] }, klass(key, value[:array]) ]
           elsif klass?(value) && !array?(value) && !array_of_primitives?(value)
             [ { t_name(key) => value }, klass(key, value) ]
           elsif klass?(value) && array_of_primitives?(value)

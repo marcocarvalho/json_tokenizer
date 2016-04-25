@@ -60,7 +60,7 @@ class PascalImplementation < PascalBase
 
   def populate_composite_type(field, type)
     if field == :array && collection_class?
-      populate_property_array(extract_collection_name, { array: type })
+      populate_property_collection(extract_collection_name, { array: type })
     elsif type.is_a?(Hash) && type[:array]
       populate_property_array(field, type)
     else
@@ -91,6 +91,18 @@ arr := TJSONArray(obj.Get('#{field}').JsonValue);
   end;
 Pascal
   end
+
+  def populate_property_collection(field, type)
+    v = <<Pascal
+arr := TJSONArray(value);
+  SetLength(#{f_key(field)}, arr.Count);
+  for i := 0 to (arr.Count - 1) do
+  begin
+    #{attr_type(field, type)}
+  end;
+Pascal
+  end
+
 
   def populate_property_hash(field, type)
     "#{f_key(field)} := #{t_name(field)}.Create(obj.Get('#{field}').JsonValue);"

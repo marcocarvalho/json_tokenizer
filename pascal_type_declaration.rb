@@ -44,7 +44,7 @@ class PascalTypeDeclaration < PascalBase
       pn = property_name(field)
       if field == :array && type.is_a?(Hash)
         pn = collection_class? ? "property #{extract_collection_name}" : property_name(name)
-        pv = property_value_array(n)
+        pv = property_value_array(collection_class? ? extract_collection_name : name)
       elsif field != :array && type.is_a?(Hash) && type[:array]
         pv = property_value_array(field)
       elsif field != :array && type.is_a?(Hash) && !type[:array]
