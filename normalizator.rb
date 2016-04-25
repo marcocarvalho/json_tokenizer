@@ -1,10 +1,21 @@
 module Normalizator
+  def unwanted_attributes(field, type)
+    !type || type == 'NilClass' || ( type.is_a?(Hash) && type.include?(:array) && !type[:array] )
+  end
+
   def f_key(str)
     "f"+camelize(str)
   end
 
+  def reserved_words
+    @reserved_words ||= %w(type)
+  end
+
   def p_key(str)
-    camelize(str)
+    extra = ''
+    extra = 'p' if reserved_words.include?(str.downcase)
+
+    extra + camelize(str)
   end
 
   def array_type(name)

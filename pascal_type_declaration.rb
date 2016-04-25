@@ -5,11 +5,13 @@ class PascalTypeDeclaration < PascalBase
 
   def initialize(name, declaration, opts = {})
     super(name, declaration)
+    @declaration = @declaration.select { |_,v| v && v != '' }
     @opts = opts
   end
 
   def private_part
     declaration.map do |field, type|
+      next if unwanted_attributes(field, type)
       if field == :array && type.is_a?(Hash)
         n = collection_class? ? extract_collection_name : name
         "#{f_key(n)}: #{array_type(n)};"
@@ -18,7 +20,7 @@ class PascalTypeDeclaration < PascalBase
       elsif field != :array && type.is_a?(Hash) && !type[:array]
         "#{f_key(field)}: #{t_name(field)};"
       else
-        "#{f_key(field)}: #{type}"
+        "#{f_key(field)}: #{type};"
       end
     end.join("\n    ")
   end
@@ -41,6 +43,7 @@ class PascalTypeDeclaration < PascalBase
 
   def public_part
     declaration.map do |field, type|
+      next if unwanted_attributes(field, type)
       pn = property_name(field)
       if field == :array && type.is_a?(Hash)
         pn = collection_class? ? "property #{extract_collection_name}" : property_name(name)
@@ -61,6 +64,7 @@ class PascalTypeDeclaration < PascalBase
   end
 
   def template
+    return '' if declaration.empty?
     v = <<Pascal
 #{class_name} = class
   private

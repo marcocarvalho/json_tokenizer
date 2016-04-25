@@ -1,8 +1,14 @@
 require './pascal_base'
 
 class PascalImplementation < PascalBase
+  def initialize(name, hash, opts = {})
+    super
+    @declaration = @declaration.select { |_, v| v && v != '' }
+  end
+
   def populate_properties
     declaration.map do |field, type|
+      next if unwanted_attributes(field, type)
       populate_property(field, type)
     end.join("\n  ")
   end
@@ -109,6 +115,7 @@ Pascal
   end
 
   def template
+    return '' if declaration.empty?
     v = <<Pascal
 constructor #{class_name}.create(value: TJSONValue);
 begin
