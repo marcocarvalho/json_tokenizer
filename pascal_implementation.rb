@@ -15,39 +15,89 @@ class PascalImplementation < PascalBase
     end
   end
 
-  def populate_property_default(field, extra = '')
-    "#{f_key(field)} := obj.Get('#{field}').JsonValue.Value#{extra};"
+  def populate_property_default(field, extra = '', dontParseField = true)
+    f = dontParseField ? f_key(field) : field
+    "#{f} := #{obj_get(field, extra)}"
   end
 
-  def populate_property_string(field)
-    populate_property_default(field)
+  def obj_get(field, extra)
+    "obj.Get('#{field}').JsonValue.Value#{extra};"
   end
 
-  def populate_property_integer(field)
-    populate_property_default(field, '.toInteger')
+  def obj_get_string(field)
+    obj_get(field, '')
   end
 
-  def populate_property_boolean(field)
-    populate_property_default(field, '.toBoolean')
+  def obj_get_integer(field)
+    obj_get(field, '.toInteger')
   end
 
-  def populate_property_double(field)
-    populate_property_default(field, '.toDouble')
+  def obj_get_boolean(field)
+    obj_get(field, 'toBoolean')
+  end
+
+  def obj_get_double(field)
+    obj_get(field, 'toDouble')
+  end
+
+  def populate_property_string(field, dontParseField = true)
+    populate_property_default(field, '', dontParseField)
+  end
+
+  def populate_property_integer(field, dontParseField = true)
+    populate_property_default(field, '.toInteger', dontParseField)
+  end
+
+  def populate_property_boolean(field, dontParseField = true)
+    populate_property_default(field, '.toBoolean', dontParseField)
+  end
+
+  def populate_property_double(field, dontParseField = true)
+    populate_property_default(field, '.toDouble', dontParseField = true)
+  end
+
+  def collection_class?
+    name =~ /^TCollection/
+  end
+
+  def extract_collection_name
+    name.gsub("TCollectionT", '').downcase
   end
 
   def populate_composite_type(field, type)
-    klass = type.class.to_s.downcase
-    # populate_property_array or populate_property_hash
-    send("populate_property_#{klass}", field, type)
+    if field == :array && collection_class?
+      populate_property_array(extract_collection_name, { array: type })
+    elsif type.is_a?(Hash) && type[:array]
+      populate_property_array(f, type)
+    else
+      populate_property_hash(f, type)
+    end
+  end
+
+  def attr_type(field, type)
+    if type[:array].is_a?(String)
+      get_part = send("obj_get_#{type[:array].downcase}", field)
+      "#{f_key(field)}[i] := #{get_part}"
+    else
+      "#{f_key(field)}[i] := #{t_name(field)}.Create(arr.Items[i]);"
+    end
+  end
+
+  def class_name
+    if collection_class?
+      name
+    else
+      super
+    end
   end
 
   def populate_property_array(field, type)
     v = <<Pascal
-  arr := TJSONArray(obj.Get('#{field}').JsonValue);
+arr := TJSONArray(obj.Get('#{field}').JsonValue);
   SetLength(#{f_key(field)}, arr.Count);
   for i := 0 to (arr.Count - 1) do
   begin
-    #{f_key(field)}[i] := #{t_name(field)}.create(arr.Items[i]);
+    #{attr_type(field, type)}
   end;
 Pascal
   end

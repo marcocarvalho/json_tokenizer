@@ -3,8 +3,8 @@ require './pascal_base'
 class PascalTypeDeclaration < PascalBase
   attr_accessor :opts
 
-  def initialize(name, hash, opts = {})
-    super(name, hash)
+  def initialize(name, declaration, opts = {})
+    super(name, declaration)
     @opts = opts
   end
 
