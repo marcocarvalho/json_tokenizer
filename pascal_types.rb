@@ -12,6 +12,10 @@ class PascalTypes < PascalBase
     hash[:array] && hash[:array].is_a?(Hash)
   end
 
+  def array_of_primitives?(hash)
+    hash[:array] && hash[:array].is_a?(String)
+  end
+
   def klass?(hash)
     hash.is_a?(Hash)
   end
@@ -35,14 +39,25 @@ class PascalTypes < PascalBase
 
   def klass(name, hash, opts = {})
     return nil unless hash.is_a?(Hash)
-    hash.flat_map do |key, value|
-      if key == :array
-        [ opts[:first] ? { t_collection(name) => { array: value }, t_name(name) => value } : nil, klass(name, value) ]
-      elsif klass?(value) && array?(value)
-        [ { t_name(key) => value[:array] }, klass(name, value[:array]) ]
-      else
-        nil
-      end
+    if opts[:first] && hash[:array]
+      [ { t_collection(name) => hash }, klass(name, hash[:array]) ]
+    elsif !opts[:first] && hash[:array]
+      [ { t_name(name) => hash[:array] }, klass(name, hash[:array]) ]
+    else
+      [
+        { t_name(name) => hash },
+        hash.flat_map do |key, value|
+          if klass?(value) && array?(value)
+            [ { t_name(key) => value[:array] }, klass(name, value[:array]) ]
+          elsif klass?(value) && !array?(value) && !array_of_primitives?(value)
+            [ { t_name(key) => value }, klass(key, value) ]
+          elsif klass?(value) && array_of_primitives?(value)
+            nil
+          else
+            klass(key, value)
+          end
+        end
+      ]
     end
   end
 end

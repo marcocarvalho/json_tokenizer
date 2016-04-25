@@ -1,0 +1,130 @@
+{
+    "data": [
+        {
+            "id": "1277",
+            "type": "businesses",
+            "links": {
+                "self": "http://beautydate.com.br/api/v2/businesses/1277"
+            },
+            "attributes": {
+                "az_id": 200,
+                "name": "Ana Gaspar Studio",
+                "description": "",
+                "city": "São Paulo",
+                "state": "SP",
+                "street": "Rua Doutor Franco da Rocha",
+                "street_number": "41",
+                "neighborhood": "Perdizes",
+                "zipcode": "05015040",
+                "rating_average": 0,
+                "rating_count": 0,
+                "favorite_count": 1,
+                "avatar": {
+                    "url": "https://cdn-production.beautydate.com.br/uploads/business/avatar/1277/logo_anagaspar.jpg",
+                    "thumb": {
+                        "url": "https://cdn-production.beautydate.com.br/uploads/business/avatar/1277/thumb_logo_anagaspar.jpg"
+                    },
+                    "medium": {
+                        "url": "https://cdn-production.beautydate.com.br/uploads/business/avatar/1277/medium_logo_anagaspar.jpg"
+                    }
+                },
+                "cover_image": {
+                    "url": "https://cdn-production.beautydate.com.br/uploads/business/cover_image/1277/1460128660.jpg",
+                    "thumb": {
+                        "url": "https://cdn-production.beautydate.com.br/uploads/business/cover_image/1277/thumb_1460128660.jpg"
+                    },
+                    "listing": {
+                        "url": "https://cdn-production.beautydate.com.br/uploads/business/cover_image/1277/listing_1460128660.jpg"
+                    },
+                    "listing_web": {
+                        "url": "https://cdn-production.beautydate.com.br/uploads/business/cover_image/1277/listing_1460128660_web.jpg"
+                    },
+                    "listing_480": {
+                        "url": "https://cdn-production.beautydate.com.br/uploads/business/cover_image/1277/listing_1460128660_480.jpg"
+                    },
+                    "listing_768": {
+                        "url": "https://cdn-production.beautydate.com.br/uploads/business/cover_image/1277/listing_1460128660_768.jpg"
+                    },
+                    "listing_1280": {
+                        "url": "https://cdn-production.beautydate.com.br/uploads/business/cover_image/1277/listing_1460128660_1280.jpg"
+                    }
+                },
+                "location": [
+                    "-23.5332965",
+                    "-46.670402"
+                ],
+                "bitmask": 107,
+                "bitmask_values": {
+                    "accepts_credit_card": true,
+                    "accepts_debit_card": true,
+                    "accepts_check": false,
+                    "has_parking_lot": true,
+                    "finish_events": false,
+                    "sends_client_email": true,
+                    "sends_client_sms": true
+                },
+                "phone": "1134738316",
+                "website": "http://",
+                "facebook_fanpage": "https://www.facebook.com/Ana-Gaspar-Studio-200493396802994/",
+                "twitter_profile": "http://www.twitter.com/",
+                "googleplus_profile": "https://plus.google.com/",
+                "slug": "ana-gaspar-studio",
+                "pictures": [],
+                "businesstype": "Salão de Beleza",
+                "franchisee": null,
+                "promocode": "AZ200",
+                "complement": "",
+                "accepts_credit_card": true,
+                "accepts_debit_card": true,
+                "accepts_check": false,
+                "has_parking_lot": true,
+                "finish_events": false,
+                "manual_payment_enabled": true,
+                "remaining_days": -34,
+                "payment_status": "ok",
+                "aasm_state": "enabled",
+                "created_at": "2016-03-08T15:03:38.222-03:00",
+                "updated_at": "2016-04-20T16:37:04.501-03:00"
+            },
+            "relationships": {
+                "clientships": {
+                    "links": {
+                        "self": "http://beautydate.com.br/api/v2/businesses/1277/relationships/clientships",
+                        "related": "http://beautydate.com.br/api/v2/businesses/1277/clientships"
+                    }
+                },
+                "favorites": {
+                    "links": {
+                        "self": "http://beautydate.com.br/api/v2/businesses/1277/relationships/favorites",
+                        "related": "http://beautydate.com.br/api/v2/businesses/1277/favorites"
+                    }
+                },
+                "service_categories": {
+                    "links": {
+                        "self": "http://beautydate.com.br/api/v2/businesses/1277/relationships/service-categories",
+                        "related": "http://beautydate.com.br/api/v2/businesses/1277/service-categories"
+                    }
+                },
+                "services": {
+                    "links": {
+                        "self": "http://beautydate.com.br/api/v2/businesses/1277/relationships/services",
+                        "related": "http://beautydate.com.br/api/v2/businesses/1277/services"
+                    }
+                },
+                "reviews": {
+                    "links": {
+                        "self": "http://beautydate.com.br/api/v2/businesses/1277/relationships/reviews",
+                        "related": "http://beautydate.com.br/api/v2/businesses/1277/reviews"
+                    }
+                }
+            }
+        }
+    ],
+    "meta": {
+        "record_count": 1
+    },
+    "links": {
+        "first": "http://beautydate.com.br/api/v2/businesses?filter%5Baz_id%5D=200&page%5Bnumber%5D=1&page%5Bsize%5D=50",
+        "last": "http://beautydate.com.br/api/v2/businesses?filter%5Baz_id%5D=200&page%5Bnumber%5D=1&page%5Bsize%5D=50"
+    }
+}
