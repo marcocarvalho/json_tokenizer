@@ -11,7 +11,8 @@ class PascalTypeDeclaration < PascalBase
   def private_part
     declaration.map do |field, type|
       if field == :array && type.is_a?(Hash)
-        "#{f_key(name)}: #{array_type(name)};"
+        n = collection_class? ? extract_collection_name : name
+        "#{f_key(n)}: #{array_type(n)};"
       elsif field != :array && type.is_a?(Hash) && type[:array]
         "#{f_key(field)}: #{array_type(field)};"
       else
@@ -23,7 +24,8 @@ class PascalTypeDeclaration < PascalBase
   def public_part
     declaration.map do |field, type|
       if field == :array && type.is_a?(Hash)
-        "#{name}: #{array_type(name)} read #{f_key(name)} write #{f_key(name)};"
+        n = collection_class? ? extract_collection_name : name
+        "#{n}: #{array_type(n)} read #{f_key(n)} write #{f_key(n)};"
       elsif field != :array && type.is_a?(Hash)
         "#{field}: #{array_type(field)} read #{f_key(field)} write #{f_key(field)};"
       else
@@ -33,11 +35,7 @@ class PascalTypeDeclaration < PascalBase
   end
 
   def class_name
-    if collection_class?
-      name
-    else
-      super
-    end
+    name
   end
 
   def template

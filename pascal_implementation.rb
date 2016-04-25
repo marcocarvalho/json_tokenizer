@@ -76,11 +76,7 @@ class PascalImplementation < PascalBase
   end
 
   def class_name
-    if collection_class?
-      name
-    else
-      super
-    end
+    name
   end
 
   def populate_property_array(field, type)

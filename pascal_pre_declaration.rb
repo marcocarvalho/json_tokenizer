@@ -25,6 +25,7 @@ class PascalPreDeclaration < PascalBase
   end
 
   def template
+    "type \n  " +
     classes.map { |klass| "#{klass} = class;" }.join("\n  ")
   end
 

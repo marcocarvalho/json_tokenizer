@@ -27,6 +27,6 @@ class PascalCustomType < PascalBase
   def template
     arrays.map do |key, value|
       "  #{key} = array of #{value};"
-    end
+    end.join("\n")
   end
 end
