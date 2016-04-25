@@ -56,21 +56,13 @@ class PascalImplementation < PascalBase
     populate_property_default(field, '.toDouble', dontParseField = true)
   end
 
-  def collection_class?
-    name =~ /^TCollection/
-  end
-
-  def extract_collection_name
-    name.gsub("TCollectionT", '').downcase
-  end
-
   def populate_composite_type(field, type)
     if field == :array && collection_class?
       populate_property_array(extract_collection_name, { array: type })
     elsif type.is_a?(Hash) && type[:array]
-      populate_property_array(f, type)
+      populate_property_array(field, type)
     else
-      populate_property_hash(f, type)
+      populate_property_hash(field, type)
     end
   end
 

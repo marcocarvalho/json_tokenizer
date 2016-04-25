@@ -18,4 +18,12 @@ module Normalizator
   def t_collection(name)
     "TCollection#{t_name(name)}"
   end
+
+  def collection_class?
+    name =~ /^TCollection/
+  end
+
+  def extract_collection_name
+    name.gsub("TCollectionT", '').downcase
+  end
 end

@@ -28,6 +28,30 @@ class PascalClass
     [uses, pre_declaration, custom_types, type_declaration].compact.join("\n\n")
   end
 
+  def pascal_classes
+    @pascal_classes ||= PascalTypes.new(name, declaration).classes
+  end
+
+  def pre_declaration
+    @pre_declaration ||= PascalPreDeclaration.new(name, declaration).template
+  end
+
+  def custom_types
+    @custom_types ||= PascalCustomType.new(name, declaration).template
+  end
+
+  def type_declaration
+    @type_declaration ||= pascal_classes.map do |klass, decl|
+      PascalTypeDeclaration.new(klass, decl).template
+    end.join("\n\n")
+  end
+
+  def implementation
+    @implementation ||= pascal_classes.map do |klass, decl|
+      PascalImplementation.new(klass, decl).template
+    end.join("\n\n")
+  end
+
   def uses
     return nil unless opts[:dependencies].is_a?(Array) && opts[:dependencies].count > 0
     "uses " + opts[:dependencies].join(', ') + ";\n"
