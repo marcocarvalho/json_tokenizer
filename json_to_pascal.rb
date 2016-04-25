@@ -1,6 +1,5 @@
 require './json_tokenizer'
 require './pascal_class'
-require 'byebug'
 
 class CreatePascalClasses
   attr_accessor :json_file
@@ -9,28 +8,9 @@ class CreatePascalClasses
   end
 
   def create_class(name, hash)
-    puts "- #{name}.pas"
-    dependencies = []
-    hash.select { |_, v| dependency?(v) }.each do |key, value|
-      print " Dependency: "
-      param = value[:array] ? value[:array] : value
-      dependencies << key
-      create_class(key, param)
-    end
     File.open("#{name}.pas",'w+') do |f|
-      f.write PascalClass.new(name, hash, dependencies: dependencies).template
+      f.write PascalClass.new(name, hash).template
     end
-  end
-
-  def dependency?(value)
-  (
-    value.is_a?(Hash) &&
-    value.keys.first != :array
-  ) || (
-    value.is_a?(Hash) &&
-    value.keys.first == :array &&
-    !value.values.first.is_a?(String)
-  )
   end
 
   def create
@@ -38,15 +18,7 @@ class CreatePascalClasses
   end
 
   def tokenized
-    return @tokenized if @tokenized
-    @tokenized = JsonTokenizer.new(json_file).parse
-
-    # se o Root é um array, ignora essa primeira chave
-    if @tokenized[:array]
-      @tokenized = @tokenized[:array]
-    end
-
-    @tokenized
+    @tokenized ||= JsonTokenizer.new(json_file).parse
   end
 end
 
