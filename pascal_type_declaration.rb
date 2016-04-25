@@ -33,8 +33,8 @@ class PascalTypeDeclaration < PascalBase
   end
 
   def class_name
-    if opts[:first]
-      t_collection(name)
+    if collection_class?
+      name
     else
       super
     end
