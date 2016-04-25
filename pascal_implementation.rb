@@ -9,6 +9,8 @@ class PascalImplementation < PascalBase
 
   def populate_property(field, type)
     if type.is_a?(String)
+      # TODO: deal with nulls and types we cannot understand!
+      return unless respond_to?("populate_property_#{type.downcase}")
       send("populate_property_#{type.downcase}", field)
     else
       populate_composite_type(field, type)

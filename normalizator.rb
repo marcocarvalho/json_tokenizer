@@ -1,6 +1,10 @@
 module Normalizator
   def f_key(str)
-    "f"+str.to_s.capitalize
+    "f"+camelize(str)
+  end
+
+  def p_key(str)
+    camelize(str)
   end
 
   def array_type(name)
@@ -8,7 +12,7 @@ module Normalizator
   end
 
   def t_name(n)
-    "T#{n.capitalize}"
+    "T#{camelize(n)}"
   end
 
   def class_name
@@ -25,5 +29,13 @@ module Normalizator
 
   def extract_collection_name
     name.gsub("TCollectionT", '').downcase
+  end
+
+  def camelize(term)
+    string = term.to_s
+    string = string.sub(/^[a-z\d]*/) { $&.capitalize }
+    string.gsub!(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
+    string.gsub!(/\//, '::')
+    string
   end
 end

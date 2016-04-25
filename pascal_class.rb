@@ -1,4 +1,6 @@
 require './normalizator'
+require 'pry'
+require 'pry-nav'
 require './pascal_base'
 require './pascal_types'
 require './pascal_custom_type'

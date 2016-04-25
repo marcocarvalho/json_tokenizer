@@ -15,22 +15,44 @@ class PascalTypeDeclaration < PascalBase
         "#{f_key(n)}: #{array_type(n)};"
       elsif field != :array && type.is_a?(Hash) && type[:array]
         "#{f_key(field)}: #{array_type(field)};"
+      elsif field != :array && type.is_a?(Hash) && !type[:array]
+        "#{f_key(field)}: #{t_name(field)};"
       else
         "#{f_key(field)}: #{type}"
       end
     end.join("\n    ")
   end
 
+  def property_name(name)
+    "property #{p_key(name)}"
+  end
+
+  def property_value_array(name)
+    "#{array_type(name)} read #{f_key(name)} write #{f_key(name)}"
+  end
+
+  def property_value_object(name)
+    "#{t_name(name)} read #{f_key(name)} write #{f_key(name)}"
+  end
+
+  def property_value(field, type)
+    "#{type} read #{f_key(field)} write #{f_key(field)}"
+  end
+
   def public_part
     declaration.map do |field, type|
+      pn = property_name(field)
       if field == :array && type.is_a?(Hash)
-        n = collection_class? ? extract_collection_name : name
-        "#{n}: #{array_type(n)} read #{f_key(n)} write #{f_key(n)};"
-      elsif field != :array && type.is_a?(Hash)
-        "#{field}: #{array_type(field)} read #{f_key(field)} write #{f_key(field)};"
+        pn = collection_class? ? "property #{extract_collection_name}" : property_name(name)
+        pv = property_value_array(n)
+      elsif field != :array && type.is_a?(Hash) && type[:array]
+        pv = property_value_array(field)
+      elsif field != :array && type.is_a?(Hash) && !type[:array]
+        pv = property_value_object(field)
       else
-        "property #{field}: #{type} read #{f_key(field)} write #{f_key(field)};"
+        pv = property_value(field, type)
       end
+      "#{pn}: #{pv};"
     end.join("\n    ")
   end
 
